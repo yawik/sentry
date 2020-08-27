@@ -36,14 +36,20 @@ class Module implements BootstrapListenerInterface, ConfigProviderInterface
     {
         /** @var \Laminas\Mvc\MvcEvent $e */
         /** @var \YkSentry\Options\ModuleOptions $options */
-        /** @var \YkSentry\Listener\SendSentryEvent $listener */
         $application = $e->getApplication();
         $services    = $application->getServiceManager();
         $options     = $services->get(ModuleOptions::class);
+        $config      = $options->getSentryConfig();
+
+        if (!isset($config['dsn']) || !$config['dsn']) {
+            return;
+        }
+
+        /** @var \YkSentry\Listener\SendSentryEvent $listener */
         $events      = $application->getEventManager();
         $listener    = $services->get(SendSentryEvent::class);
 
-        \Sentry\init($options->getSentryConfig());
+        \Sentry\init($config);
         $listener->attach($events);
     }
 }
