@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace YkSentry;
 
+use Core\ModuleManager\Feature\VersionProviderInterface;
+use Core\ModuleManager\Feature\VersionProviderTrait;
 use Core\ModuleManager\ModuleConfigLoader;
 use Laminas\EventManager\EventInterface;
 use Laminas\ModuleManager\Feature\BootstrapListenerInterface;
@@ -25,8 +27,12 @@ use YkSentry\Options\ModuleOptions;
  * @author Mathias Gelhausen
  * TODO: write tests
  */
-class Module implements BootstrapListenerInterface, ConfigProviderInterface
+class Module implements BootstrapListenerInterface, ConfigProviderInterface, VersionProviderInterface
 {
+    use VersionProviderTrait;
+
+    const VERSION = '0.0.2';
+ 
     public function getConfig()
     {
         return ModuleConfigLoader::load(__DIR__ . '/../config/');
