@@ -32,7 +32,7 @@ class Module implements BootstrapListenerInterface, ConfigProviderInterface, Ver
     use VersionProviderTrait;
 
     const VERSION = '0.0.2';
- 
+
     public function getConfig()
     {
         return ModuleConfigLoader::load(__DIR__ . '/../config/');
@@ -55,7 +55,6 @@ class Module implements BootstrapListenerInterface, ConfigProviderInterface, Ver
         $events      = $application->getEventManager();
         $listener    = $services->get(SendSentryEvent::class);
 
-        \Sentry\init($config);
         $listener->attach($events);
     }
 }
