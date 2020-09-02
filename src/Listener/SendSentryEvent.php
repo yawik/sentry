@@ -16,6 +16,7 @@ use Core\EventManager\ListenerAggregateTrait;
 use Laminas\EventManager\ListenerAggregateInterface;
 use Laminas\Mvc\Application;
 use Laminas\Mvc\MvcEvent;
+use Sentry\Severity;
 use Sentry\State\HubInterface;
 use Sentry\State\Scope;
 
@@ -31,8 +32,8 @@ class SendSentryEvent implements ListenerAggregateInterface
 
     // phpcs:ignore
     private $events = [
-        [MvcEvent::EVENT_DISPATCH_ERROR, 'execute', 10],
-        [MvcEvent::EVENT_RENDER_ERROR, 'execute', 10],
+        [MvcEvent::EVENT_DISPATCH_ERROR, 'execute', -100],
+        [MvcEvent::EVENT_RENDER_ERROR, 'execute', -100],
     ];
 
     /** @var HubInterface */
@@ -47,8 +48,9 @@ class SendSentryEvent implements ListenerAggregateInterface
     {
         $error = $event->getError();
 
-        $this->hub->configureScope(function (Scope $scope) use ($error, $event) {
+        $this->hub->configureScope(function (Scope $scope) use ($error) {
             $scope->setTag('type', $error);
+            $scope->setLevel($this->detectErrorLevel($error));
         });
 
         if ($error == Application::ERROR_EXCEPTION) {
@@ -58,6 +60,17 @@ class SendSentryEvent implements ListenerAggregateInterface
         }
 
         $this->hub->captureMessage($this->detectErrorMessage($error));
+    }
+
+    private function detectErrorLevel($error)
+    {
+        switch ($error) {
+            default:
+                return new Severity(Severity::ERROR);
+
+            case Application::ERROR_ROUTER_NO_MATCH:
+                return new Severity(Severity::WARNING);
+        }
     }
 
     private function detectErrorMessage($error)
