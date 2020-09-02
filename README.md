@@ -33,10 +33,17 @@ Configuration
 
 Copy the file `config/sentry.module-options.local.php.dist` into the `config/autoload` directory and strip off the `.dist` extension.
 
-Adjust the configuration. Required is the `dsn` key. If it is not set or empty, this module will be disabled.  
-You can use any configuration keys that can be used in the function `\Sentry\init()` as [described here](https://docs.sentry.io/error-reporting/configuration/?platform=php)
+Adjust the configuration.   
+
+* `$enable`:   
+  You may disable sending events to Sentry. (e.g. for testing or development environments.)
+* `$sentryConfig`:  
+  You can use any configuration keys that can be used in the function `\Sentry\init()` as [described here](https://docs.sentry.io/error-reporting/configuration/?platform=php).   
+  However, the `dsn` key is required, and sending events will be disabled, if it is not set or empty - regardless of the `$enabled` setting above.
 
 ```php
+$enable = true;
+
 $sentryConfig = [
     // the DSN (public key) for the sentry server
     'dsn' => '',

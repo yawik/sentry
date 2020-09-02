@@ -16,6 +16,7 @@ use Core\EventManager\ListenerAggregateTrait;
 use Laminas\EventManager\ListenerAggregateInterface;
 use Laminas\Mvc\Application;
 use Laminas\Mvc\MvcEvent;
+use Sentry\State\HubInterface;
 use Sentry\State\Scope;
 
 /**
@@ -34,21 +35,29 @@ class SendSentryEvent implements ListenerAggregateInterface
         [MvcEvent::EVENT_RENDER_ERROR, 'execute', 10],
     ];
 
+    /** @var HubInterface */
+    private $hub;
+
+    public function __construct(HubInterface $hub)
+    {
+        $this->hub = $hub;
+    }
+
     public function execute(MvcEvent $event)
     {
         $error = $event->getError();
 
-        \Sentry\configureScope(function (Scope $scope) use ($error, $event) {
+        $this->hub->configureScope(function (Scope $scope) use ($error, $event) {
             $scope->setTag('type', $error);
         });
 
         if ($error == Application::ERROR_EXCEPTION) {
             $exception = $event->getParam('exception');
-            \Sentry\captureException($exception);
+            $this->hub->captureException($exception);
             return;
         }
 
-        \Sentry\captureMessage($this->detectErrorMessage($error));
+        $this->hub->captureMessage($this->detectErrorMessage($error));
     }
 
     private function detectErrorMessage($error)

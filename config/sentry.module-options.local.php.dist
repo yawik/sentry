@@ -13,6 +13,12 @@ declare(strict_types=1);
 namespace YkSentry;
 
 /*
+ * Set this to false to disable Sentry.
+ * (Note: If no 'dsn' configuration is set, Sentry is disabled as well.)
+ */
+$enable = true;
+
+/*
  * Configure your Sentry client.
  * See https://docs.sentry.io/error-reporting/configuration/?platform=php
  * for a list of available options.
@@ -30,6 +36,7 @@ return [
     'options' => [
         Options\ModuleOptions::class => [
             'options' => [
+                'isEnabled' => $enable,
                 'sentryConfig' => $sentryConfig,
             ],
         ],
