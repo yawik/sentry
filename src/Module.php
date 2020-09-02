@@ -45,9 +45,8 @@ class Module implements BootstrapListenerInterface, ConfigProviderInterface, Ver
         $application = $e->getApplication();
         $services    = $application->getServiceManager();
         $options     = $services->get(ModuleOptions::class);
-        $config      = $options->getSentryConfig();
 
-        if (!isset($config['dsn']) || !$config['dsn']) {
+        if (!$options->isEnabled()) {
             return;
         }
 

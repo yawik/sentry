@@ -22,6 +22,10 @@ use Laminas\Stdlib\AbstractOptions;
  */
 class ModuleOptions extends AbstractOptions
 {
+
+    /** @var bool */
+    private $isEnabled = true;
+
     /**
      * @var array
      */
@@ -45,5 +49,29 @@ class ModuleOptions extends AbstractOptions
     public function setSentryConfig($sentryConfig): void
     {
         $this->sentryConfig = $sentryConfig;
+    }
+
+    /**
+     * Returns true, if Sentry should be enabled
+     *
+     * @return bool
+     */
+    public function isEnabled()
+    {
+        return
+            $this->isEnabled
+            && isset($this->sentryConfig['dsn'])
+            && !empty($this->sentryConfig['dsn'])
+        ;
+    }
+
+    /**
+     * Set wether Sentry should be enabled.
+     *
+     * @param bool $isEnabled
+     */
+    public function setIsEnabled($isEnabled): void
+    {
+        $this->isEnabled = $isEnabled;
     }
 }
