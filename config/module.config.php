@@ -12,13 +12,13 @@ declare(strict_types=1);
 
 namespace YkSentry;
 
-use Laminas\ServiceManager\Factory\InvokableFactory;
-
 return [
 
     'service_manager' => [
         'factories' => [
-            Listener\SendSentryEvent::class => InvokableFactory::class,
+            \Sentry\State\HubInterface::class => Service\SentryHubFactory::class,
+            \Sentry\ClientInterface::class => Service\SentryClientFactory::class,
+            Listener\SendSentryEvent::class => Listener\SendSentryEventFactory::class,
         ],
     ],
 
