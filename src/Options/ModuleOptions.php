@@ -18,17 +18,13 @@ use Laminas\Stdlib\AbstractOptions;
  * TODO: description
  *
  * @author Mathias Gelhausen
- * TODO: write tests
  */
 class ModuleOptions extends AbstractOptions
 {
-
     /** @var bool */
     private $isEnabled = true;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     private $sentryConfig = [];
 
     /**
