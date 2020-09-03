@@ -19,7 +19,6 @@ use Sentry\State\HubInterface;
  * Factory for \YkSentry\Listener\SendSentryEvent
  *
  * @author Mathias Gelhausen
- * TODO: write tests
  */
 class SendSentryEventFactory
 {
