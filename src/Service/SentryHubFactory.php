@@ -22,7 +22,6 @@ use Sentry\State\HubInterface;
  * Factory for creating a sentry Hub instance
  *
  * @author Mathias Gelhausen
- * TODO: write tests
  */
 class SentryHubFactory
 {
