@@ -21,20 +21,25 @@ use Sentry\State\HubInterface;
 use Sentry\State\Scope;
 
 /**
- * TODO: description
+ * Listener to send events to a Sentry instance upon MVC error events.
  *
  * @author Mathias Gelhausen
- * TODO: write tests
  */
 class SendSentryEvent implements ListenerAggregateInterface
 {
     use ListenerAggregateTrait;
 
-    // phpcs:ignore
+
+    // phpcs:disable
+    /**
+     * @var arrray[]
+     * @see ListenerAggregateTrait
+     */
     private $events = [
         [MvcEvent::EVENT_DISPATCH_ERROR, 'execute', -100],
         [MvcEvent::EVENT_RENDER_ERROR, 'execute', -100],
     ];
+    // phpcs:enable
 
     /** @var HubInterface */
     private $hub;

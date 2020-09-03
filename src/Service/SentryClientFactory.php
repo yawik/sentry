@@ -22,7 +22,6 @@ use YkSentry\Options\ModuleOptions;
  * Factory for creating a Sentry client interface instance.
  *
  * @author Mathias Gelhausen
- * TODO: write tests
  */
 class SentryClientFactory
 {

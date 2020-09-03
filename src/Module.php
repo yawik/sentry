@@ -22,16 +22,13 @@ use YkSentry\Listener\SendSentryEvent;
 use YkSentry\Options\ModuleOptions;
 
 /**
- * TODO: description
- *
  * @author Mathias Gelhausen
- * TODO: write tests
  */
 class Module implements BootstrapListenerInterface, ConfigProviderInterface, VersionProviderInterface
 {
     use VersionProviderTrait;
 
-    const VERSION = '0.1.0';
+    public const VERSION = '0.1.0';
 
     public function getConfig()
     {
