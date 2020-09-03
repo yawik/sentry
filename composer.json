@@ -79,6 +79,10 @@
             "@auto-scripts"
         ],
         "serve": "php -S 0.0.0.0:8000 -t test/sandbox/public test/sandbox/public/router.php",
-        "test": "phpunit"
+        "test": "vendor/bin/phpunit",
+        "test-html": "vendor/bin/phpunit --coverage-html=test/coverage",
+        "test-text": "vendor/bin/phpunit --coverage-text",
+        "test-clover": "vendor/bin/phpunit --coverage-clover=coverage.clover.xml",
+        "lint": "vendor/bin/phpcs -v --standard=phpcs.xml src/*"
     }
 }
